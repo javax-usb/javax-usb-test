@@ -1,0 +1,326 @@
+<?xml version="1.0"?>
+
+<!--
+	XML Ant (http://www.apache.org/ant) build file for JSR80 (javax.usb) Unit Tests
+	@author E. Michael Maximilien
+	@author Dan Streetman
+	@version 1.0.0-beta1
+-->
+
+<project name="javax.usb" default="help">
+
+	<!-- User overrides from file -->
+	<property name="ant.prop.file.name" value=".ant-global.properties"/>
+	<property file="${user.home}/${ant.prop.file.name}"/>
+	
+	<!-- User overrides from environment -->
+	<property environment="Jsr80Env"/>
+	
+	<property name="Jsr80Env.JSR80_TEST_BUILDFILE" value="build_ri.xml"/>
+
+	<property name="Jsr80Env.JSR80_TEST_VERSION" value="1.0.0-beta2"/>
+
+	<property name="Jsr80Env.JSR80_TEST_DIST_NAME" value="jsr80-ri-${Jsr80Env.JSR80_TEST_VERSION}"/>
+	<property name="Jsr80Env.JSR80_TEST_DIST_ZIP_FILE" value="${Jsr80Env.JSR80_TEST_DIST_NAME}.zip"/>
+	<property name="Jsr80Env.JSR80_TEST_DIST_TAR_FILE" value="${Jsr80Env.JSR80_TEST_DIST_NAME}.tar"/>
+
+	<property name="Jsr80Env.JSR80_TEST_SRC_JARFILE" value="jsr80_test_src.jar"/>
+	<property name="Jsr80Env.JSR80_TEST_CLASS_JARFILE" value="jsr80_test.jar"/>
+
+	<property name="Jsr80Env.JSR80_TEST_DIST_DIR" value="dist"/>
+	<property name="Jsr80Env.JSR80_TEST_SRC_DIR" value="test"/>
+	<property name="Jsr80Env.JSR80_TEST_DEST_DIR" value="${Jsr80Env.JSR80_TEST_SRC_DIR}"/>
+	<property name="Jsr80Env.JSR80_TEST_LIB_DIR" value="lib"/>
+	<property name="Jsr80Env.JSR80_TEST_SRC_JARFILE_DIR" value="${Jsr80Env.JSR80_TEST_SRC_DIR}"/>
+	<property name="Jsr80Env.JSR80_TEST_CLASS_JARFILE_DIR" value="${Jsr80Env.JSR80_TEST_LIB_DIR}"/>
+	<property name="Jsr80Env.JSR80_TEST_DOCS_DIR" value="docs"/>
+	<property name="Jsr80Env.JSR80_TEST_JDOC_DIR" value="${Jsr80Env.JSR80_TEST_DOCS_DIR}/jdoc"/>
+
+	<property name="Jsr80Env.JSR80_TEST_DEBUG" value="no"/>
+	<property name="Jsr80Env.JSR80_TEST_OPTIMIZE" value="yes"/>
+	<property name="Jsr80Env.JSR80_TEST_DEPRECATION" value="yes"/>
+	<property name="Jsr80Env.JSR80_TEST_VERBOSE" value="no"/>
+	<property name="Jsr80Env.JSR80_TEST_QUIET" value="no"/>
+	<property name="Jsr80Env.JSR80_TEST_COMPRESS" value="yes"/>
+
+	<property name="Jsr80Env.JSR80_TEST_JUNIT_CLASSNAME" value="junit.textui.TestRunner"/>	
+	<property name="Jsr80Env.JSR80_TEST_JUNIT_API_ARG" value="javax.usb.AllTests"/>
+	<property name="Jsr80Env.JSR80_TEST_JUNIT_RI_ARG" value="com.ibm.jusb.AllTests"/>
+
+	<property name="Jsr80Env.JSR80_TEST_JDOC_WINDOWTITLE" value="JavaDOC for JSR80 (javax.usb) Unit Tests"/>
+	<property name="Jsr80Env.JSR80_TEST_JDOC_DOCTITLE" value="JSR80 (javax.usb) Unit Tests"/>
+	<property name="Jsr80Env.JSR80_TEST_JDOC_BOTTOM" value="Copyright &#169; 2000-2001 JCP (Java Community Process) All Rights Reserved."/>
+	<property name="Jsr80Env.JSR80_TEST_JDOC_HEADER" value="javax.usb Linux Unit Tests v${Jsr80Env.JSR80_TEST_VERSION}"/>
+	<property name="Jsr80Env.JSR80_TEST_JDOC_FOOTER" value="javax.usb Linux Unit Tests v${Jsr80Env.JSR80_TEST_VERSION}"/>
+
+	<!-- Variable defaults -->
+	<property name="jsr80.test.buildfile" value="${Jsr80Env.JSR80_TEST_BUILDFILE}"/>
+	
+	<property name="jsr80.test.tmp.dir" value="RI-TMP-DIR"/>
+	<property name="jsr80.test.dist.name.dir" value="${Jsr80Env.JSR80_TEST_DIST_NAME}"/>
+	<property name="jsr80.test.dist.zip.file" value="${Jsr80Env.JSR80_TEST_DIST_ZIP_FILE}"/>
+	<property name="jsr80.test.dist.tar.file" value="${Jsr80Env.JSR80_TEST_DIST_TAR_FILE}"/>
+	<property name="jsr80.test.manifest.file" value="jsr80_test.mf"/>
+
+	<property name="jsr80.test.readme.file" value="README-TEST"/>
+	<property name="jsr80.test.license.file" value="LICENSE-TEST"/>
+
+	<property name="jsr80.test.version" value="${Jsr80Env.JSR80_TEST_VERSION}"/>
+	
+	<property name="jsr80.test.dist.dir" value="${Jsr80Env.JSR80_TEST_DIST_DIR}"/>
+	<property name="jsr80.test.dest.dir" value="${Jsr80Env.JSR80_TEST_DEST_DIR}"/>
+	<property name="jsr80.test.src.dir" value="${Jsr80Env.JSR80_TEST_SRC_DIR}"/>
+	<property name="jsr80.test.lib.dir" value="${Jsr80Env.JSR80_TEST_LIB_DIR}"/>
+	<property name="jsr80.test.docs.dir" value="${Jsr80Env.JSR80_TEST_DOCS_DIR}"/>
+	<property name="jsr80.test.jdoc.dir" value="${Jsr80Env.JSR80_TEST_JDOC_DIR}"/>
+	<property name="jsr80.test.test.src.dir" value="${Jsr80Env.JSR80_TEST_TEST_SRC_DIR}"/>
+	<property name="jsr80.test.test.dest.dir" value="${Jsr80Env.JSR80_TEST_TEST_DEST_DIR}"/>
+
+	<property name="jsr80.test.debug" value="${Jsr80Env.JSR80_TEST_DEBUG}"/>
+	<property name="jsr80.test.optimize" value="${Jsr80Env.JSR80_TEST_OPTIMIZE}"/>
+	<property name="jsr80.test.deprecation" value="${Jsr80Env.JSR80_TEST_DEPRECATION}"/>
+	<property name="jsr80.test.verbose" value="${Jsr80Env.JSR80_TEST_VERBOSE}"/>
+	<property name="jsr80.test.quiet" value="${Jsr80Env.JSR80_TEST_QUIET}"/>
+	<property name="jsr80.test.compress" value="${Jsr80Env.JSR80_TEST_COMPRESS}"/>
+
+	<property name="jsr80.test.src.jarfile" value="${Jsr80Env.JSR80_TEST_SRC_JARFILE}"/>
+	<property name="jsr80.test.class.jarfile" value="${Jsr80Env.JSR80_TEST_CLASS_JARFILE}"/>
+	<property name="jsr80.test.src.jarfile.dir" value="${Jsr80Env.JSR80_TEST_SRC_JARFILE_DIR}"/>
+	<property name="jsr80.test.class.jarfile.dir" value="${Jsr80Env.JSR80_TEST_CLASS_JARFILE_DIR}"/>
+
+	<property name="jsr80.test.jdoc.windowtitle" value="${Jsr80Env.JSR80_TEST_JDOC_WINDOWTITLE}"/>
+	<property name="jsr80.test.jdoc.doctitle" value="${Jsr80Env.JSR80_TEST_JDOC_DOCTITLE}"/>
+	<property name="jsr80.test.jdoc.bottom" value="${Jsr80Env.JSR80_TEST_JDOC_BOTTOM}"/>
+	<property name="jsr80.test.jdoc.header" value="${Jsr80Env.JSR80_TEST_JDOC_HEADER}"/>
+	<property name="jsr80.test.jdoc.footer" value="${Jsr80Env.JSR80_TEST_JDOC_FOOTER}"/>
+	<property name="jsr80.test.jdoc.verbose" value="no"/>
+	<property name="jsr80.test.jdoc.version" value="yes"/>
+	<property name="jsr80.test.jdoc.author" value="yes"/>
+	<property name="jsr80.test.jdoc.nodeprecated" value="no"/>
+	<property name="jsr80.test.jdoc.nodeprecatedlist" value="no"/>
+	<property name="jsr80.test.jdoc.failonerror" value="yes"/>
+	<property name="jsr80.test.jdoc.public" value="no"/>
+	<property name="jsr80.test.jdoc.protected" value="no"/>
+	<property name="jsr80.test.jdoc.package" value="yes"/>
+	<property name="jsr80.test.jdoc.private" value="no"/>
+
+	<property name="jsr80.test.junit.classname" value="${Jsr80Env.JSR80_TEST_JUNIT_CLASSNAME}"/>
+	<property name="jsr80.test.junit.api.arg" value="${Jsr80Env.JSR80_TEST_JUNIT_API_ARG}"/>
+	<property name="jsr80.test.junit.ri.arg" value="${Jsr80Env.JSR80_TEST_JUNIT_RI_ARG}"/>
+	<property name="jsr80.test.junit.fork" value="yes"/>
+
+	<!--
+		 This task shows the various options to run this build file
+	-->
+	<target name="help">
+		<echo message="Buildfile for JSR80 (javax.usb) Unit Tests"/>
+		<echo message=""/>
+		<echo message="Targets:"/>
+		<echo message=""/>
+		<echo message="  all                == compile jars jdoc test"/>
+		<echo message="  clean              Clean all classes"/>
+		<echo message="  compile            Compile all classes"/>
+		<echo message="  help               Show this help"/>
+		<echo message="  jars               Create JAR files"/>
+		<echo message="  jdoc               Create JavaDOC"/>
+		<echo message="  mrproper           Clean everything"/>
+		<echo message="  test               == test-api test-ri"/>
+		<echo message="  test-api           Run API jUnit Tests"/>
+		<echo message="  test-ri            Run RI jUnit Tests"/>
+		<echo message="  version            Show Unit Test version"/>
+		<echo message=""/>
+	</target>
+
+	<!-- Initialization -->
+	<target name="init">
+	</target>
+
+	<!--
+		Compile Unit Tests
+	-->
+	<target name="compile" depends="init">
+		<echo message="Compiling JSR80 (javax.usb) Unit Test classes"/>
+		<mkdir dir="${jsr80.test.dest.dir}"/>
+		<javac
+			srcdir="${jsr80.test.src.dir}"
+			destdir="${jsr80.test.dest.dir}"
+			debug="${jsr80.test.debug}"
+			optimize="${jsr80.test.optimize}"
+			deprecation="${jsr80.test.deprecation}"
+			verbose="${jsr80.test.verbose}"
+			failonerror="yes"
+			includes="javax/usb/**,com/ibm/jusb/**"/>
+	</target>
+
+	<!-- 
+		Cleans the .class files
+	-->
+	<target name="clean" depends="init">
+		<echo message="Cleaning JSR80 (javax.usb) Unit Test classes" />
+		<delete verbose="${jsr80.test.verbose}" quiet="${jsr80.test.quiet}" failonerror="false">
+			<fileset dir="${jsr80.test.dest.dir}" includes="javax/usb/**/*.class,com/ibm/jusb/**/*.class"/>
+		</delete>
+	</target>
+
+	<!-- Mr. Clean -->
+	<target name="mrproper" depends="init,clean">
+		<echo message="Cleaning everything in JSR80 Unit Tests!"/>
+		<delete verbose="${jsr80.test.verbose}" quiet="${jsr80.test.quiet}" failonerror="false">
+			<fileset dir="${jsr80.test.src.jarfile.dir}" includes="${jsr80.test.src.jarfile}"/>
+			<fileset dir="${jsr80.test.class.jarfile.dir}" includes="${jsr80.test.class.jarfile}"/>
+		</delete>
+
+		<delete verbose="${jsr80.test.verbose}" quiet="${jsr80.test.quiet}" failonerror="false"
+			dir="${jsr80.test.jdoc.dir}"/>
+		<delete verbose="${jsr80.test.verbose}" quiet="${jsr80.test.quiet}" failonerror="false"
+			file="${jsr80.test.dist.zip.file}"/> 
+		<delete verbose="${jsr80.test.verbose}" quiet="${jsr80.test.quiet}" failonerror="false"
+			file="${jsr80.test.dist.tar.file}.gz"/> 
+	</target>
+
+	<!--
+		Creates the source and class JAR files
+	-->
+	<target name="jars" depends="init,compile">
+		<mkdir dir="${jsr80.test.src.jarfile.dir}"/>
+		<jar
+			jarfile="${jsr80.test.src.jarfile.dir}/${jsr80.test.src.jarfile}"
+			basedir="${jsr80.test.src.dir}"
+			compress="${jsr80.test.compress}"
+			includes="javax/usb/**/*.java,com/ibm/jusb/**/*.java"/>
+
+		<mkdir dir="${jsr80.test.class.jarfile.dir}"/>
+		<jar
+			jarfile="${jsr80.test.class.jarfile.dir}/${jsr80.test.class.jarfile}"
+			basedir="${jsr80.test.dest.dir}"
+			compress="${jsr80.test.compress}"
+			includes="javax/usb/res/jusb.properties,javax/usb/**/*.class,com/ibm/jusb/**/*.class,com/ibm/jusb/**/*.gif"/>
+	</target>
+
+	<!--
+		Builds the JavaDOC for the Unit Tests
+	-->
+	<target name="jdoc" depends="init">
+		<mkdir dir="${jsr80.test.jdoc.dir}"/>
+		<javadoc
+			packagenames="javax.usb.*,com.ibm.jusb.*"
+			sourcepath="${jsr80.test.src.dir}"
+			destdir="${jsr80.test.jdoc.dir}"
+			verbose="${jsr80.test.verbose}"
+			Public="${jsr80.test.public}"
+			Protected="${jsr80.test.protected}"
+			Package="${jsr80.test.package}"
+			Private="${jsr80.test.private}"
+			Version="${jsr80.test.version}"
+			Author="${jsr80.test.author}"
+			windowtitle="${jsr80.test.jdoc.windowtitle}"
+			doctitle="${jsr80.test.jdoc.doctitle}"
+			bottom="${jsr80.test.jdoc.bottom}"
+			header="${jsr80.test.jdoc.header}"
+			footer="${jsr80.test.jdoc.footer}"
+			nodeprecated="${jsr80.test.jdoc.nodeprecated}"
+			nodeprecatedlist="${jsr80.test.jdoc.nodeprecatedlist}"
+			failonerror="${jsr80.test.jdoc.failonerror}"
+		/>
+	</target>
+
+	<!--
+		Display the version information for Unit Tests
+	-->
+	<target name="version" depends="init">
+		<!-- No runnable version class for the Unit Tests yet -->
+		<fail message="No runnable Version class for Unit Tests (yet)."/>
+	</target>
+
+	<!-- 
+		Builds a release distribution and Zip for this Unit Test version 
+	-->
+	<target name="dist" depends="init,all">
+		<!-- Creating distribution directories -->
+		<mkdir dir="${jsr80.test.dist.dir}"/>
+		<mkdir dir="${jsr80.test.dist.dir}/test"/>
+		<mkdir dir="${jsr80.test.dist.dir}/lib"/>
+		<mkdir dir="${jsr80.test.dist.dir}/docs"/>
+
+		<!-- Copying main project files -->
+		<copy file="${jsr80.test.buildfile}" todir="${jsr80.test.dist.dir}"/>
+		<copy file="${jsr80.test.readme.file}" todir="${jsr80.test.dist.dir}"/>
+		<copy file="${jsr80.test.license.file}" todir="${jsr80.test.dist.dir}"/>
+
+		<!-- Copying docs files (directories) -->
+		<copy todir="${jsr80.test.dist.dir}/docs">
+			<fileset dir="${jsr80.test.docs.dir}"/>
+		</copy>
+
+		<!-- Copying src files -->
+		<copy todir="${jsr80.test.dist.dir}/test">
+			<fileset dir="${jsr80.test.src.dir}" excludes="**/*.class"/>
+		</copy>
+
+		<!-- Creating Zip distribution file -->
+		<echo message="Creating temp directory ${jsr80.test.tmp.dir}/${jsr80.test.dist.name.dir}"/>
+		<mkdir dir="${jsr80.test.tmp.dir}/${jsr80.test.dist.name.dir}"/>
+		<copy todir="${jsr80.test.tmp.dir}/${jsr80.test.dist.name.dir}">
+			<fileset dir="${jsr80.test.dist.dir}"/>
+		</copy>
+
+		<zip zipfile="${jsr80.test.dist.zip.file}" basedir="${jsr80.test.tmp.dir}"/>
+		<echo message="Zip distribution file ${jsr80.test.dist.zip.file} created sucessfully"/>
+
+		<tar tarfile="${jsr80.test.dist.tar.file}" basedir="${jsr80.test.tmp.dir}"/>
+		<gzip zipfile="${jsr80.test.dist.tar.file}.gz" src="${jsr80.test.dist.tar.file}"/>
+		<delete file="${jsr80.test.dist.tar.file}"/>
+		<echo message="Tar distribution file ${jsr80.test.dist.tar.file}.gz created sucessfully"/>
+
+		<echo message="Cleaning temp directory ${jsr80.test.tmp.dir}"/>
+		<delete dir="${jsr80.test.tmp.dir}"/>
+		<echo message="Cleaing distribution directory ${jsr80.test.dist.dir}"/>
+		<delete dir="${jsr80.test.dist.dir}"/>
+	</target>
+
+	<!--
+		clean, compile, jars, jdoc
+	-->
+	<target name="all" depends="init,clean,compile,jars,jdoc,test"/>
+
+	<!--
+		Runs the API Unit Tests
+	-->
+	<target name="test-api" depends="init,compile">
+		<java classname="${jsr80.test.junit.classname}" fork="${jsr80.test.junit.fork}" failonerror="yes">
+			<arg value="${jsr80.test.junit.api.arg}"/>
+			<classpath>
+				<pathelement path="${java.class.path}"/>
+				<pathelement location="${jsr80.test.class.jarfile.dir}/${jsr80.test.class.jarfile}"/>
+				<pathelement path="${jsr80.test.dest.dir}"/>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Runs the RI Unit Tests
+	-->
+	<target name="test-ri" depends="init,compile">
+		<java classname="${jsr80.test.junit.classname}" fork="${jsr80.test.junit.fork}" failonerror="yes">
+			<arg value="${jsr80.test.junit.ri.arg}"/>
+			<classpath>
+				<pathelement path="${java.class.path}"/>
+				<pathelement location="${jsr80.test.class.jarfile.dir}/${jsr80.test.class.jarfile}"/>
+				<pathelement path="${jsr80.test.dest.dir}"/>
+			</classpath>
+		</java>
+	</target>
+
+	<!--
+		Runs both API and RI Unit Tests
+	-->
+	<target name="test" depends="init,test-api,test-ri"/>
+
+</project>
+
+
+
+
+
+
+
